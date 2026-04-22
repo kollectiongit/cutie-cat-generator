@@ -57,7 +57,8 @@ export function HeroCatKittenGenerator() {
           id="hero-title"
           className="mb-4 text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-[2.75rem]"
         >
-          Des minous trop cuties, à portée de clic
+          Des minous trop cuties,
+          <br />à portée de clic
         </h1>
         <p className="mb-7 max-w-[36ch] text-lg text-[#6d5f66]">
           Cutie Cat Generator transforme tes idées en illustrations douces et
@@ -82,11 +83,6 @@ export function HeroCatKittenGenerator() {
               "Génère-moi un chaton mignon"
             )}
           </button>
-          {status === "idle" && (
-            <span className="text-sm font-medium text-[#6d5f66]">
-              Propulsé par l’API Vercel AI
-            </span>
-          )}
           {status === "error" && error && (
             <span
               className="max-w-[min(100%,28rem)] text-sm font-medium text-rose-600"

@@ -18,7 +18,6 @@ const linkClass = cn(
 type CurrentPage = "home" | "blog";
 
 export function CutieCatSiteHeader({
-  tagline,
   current,
 }: {
   tagline: string;
