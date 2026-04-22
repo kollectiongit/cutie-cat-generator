@@ -1,6 +1,6 @@
+import { PawPrint } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PawPrint } from "lucide-react";
 
 import { BlogArticleList } from "@/components/blog-article-list";
 import { CutieCatSiteHeader } from "@/components/cutie-cat-site-header";
@@ -58,8 +58,8 @@ export default function BlogPage() {
               d’un peu de douceur.
             </p>
             <p className="m-0 text-sm text-[#6d5f66]">
-              Pour t’offrir un poil de confort lecture, tu peux agrandir le texte
-              du navigateur (souvent{" "}
+              Pour t’offrir un poil de confort lecture, tu peux agrandir le
+              texte du navigateur (souvent{" "}
               <KbdGroup className="inline" aria-label="Agrandir">
                 <Kbd>⌘</Kbd>
                 <Kbd>+</Kbd>
