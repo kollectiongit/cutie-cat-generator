@@ -1,15 +1,11 @@
-import Link from "next/link";
-import type { ComponentProps } from "react";
-
-import { buttonVariants } from "@/components/ui/button";
+import { CutieCatSiteHeader } from "@/components/cutie-cat-site-header";
+import { HeroCatKittenGenerator } from "@/components/hero-cat-kitten-generator";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 
 const features = [
   {
@@ -53,79 +49,14 @@ export default function Home() {
         }}
       />
 
-      <header className="mx-auto w-full max-w-[1100px] px-6 pt-7 pb-2 text-center">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 no-underline text-inherit"
-        >
-          <span
-            className="inline-block text-[1.75rem] leading-none motion-safe:animate-[gentle-bob_3.5s_ease-in-out_infinite]"
-            aria-hidden
-          >
-            🐾
-          </span>
-          <span className="text-xs md lg:text-3xl xl:text-4xl font-bold tracking-tight ">
-            Cutie Cat Generator
-          </span>
-        </Link>
-        <p className="mt-2.5 text-base font-medium text-[#6d5f66]">
-          Des chats adorables, générés avec amour
-        </p>
-      </header>
+      <CutieCatSiteHeader
+        current="home"
+        tagline="Des chats adorables, générés avec amour"
+      />
 
       <main className="mx-auto w-full max-w-[1100px] flex-1 px-6 pb-12 pt-8">
-        <section
-          className="grid gap-10 pb-12 md:grid-cols-2 md:gap-12 md:pb-16 md:pt-8"
-          aria-labelledby="hero-title"
-        >
-          <div className="motion-safe:animate-[fade-up_0.8s_ease-out_both]">
-            <h1
-              id="hero-title"
-              className="mb-4 text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-[2.75rem]"
-            >
-              Des minous trop cuties, à portée de clic
-            </h1>
-            <p className="mb-7 max-w-[36ch] text-lg text-[#6d5f66]">
-              Cutie Cat Generator transforme tes idées en illustrations douces
-              et colorées. Parfait pour des avatars, des cartes ou simplement
-              sourire.
-            </p>
-            <div className="flex flex-wrap items-center gap-4 gap-y-3">
-              <Link
-                href="#features"
-                className={cn(
-                  buttonVariants({ size: "lg" }),
-                  "h-11 rounded-full border-0 bg-gradient-to-br from-[#ffb5a7] via-[#ff8fab] to-[#d4c4f5] px-7 text-base font-semibold text-white shadow-[0_8px_24px_rgba(255,120,140,0.35)] hover:from-[#ffb5a7]/90 hover:via-[#ff8fab]/90 hover:to-[#d4c4f5]/90 hover:shadow-[0_12px_28px_rgba(255,120,140,0.42)] hover:[transform:translateY(-2px)] focus-visible:ring-[#d4c4f5]/50",
-                )}
-              >
-                Découvrir
-              </Link>
-              <span className="text-sm font-medium text-[#6d5f66]">
-                Bientôt : génération en ligne
-              </span>
-            </div>
-          </div>
-
-          <div
-            className="motion-safe:animate-[fade-up_0.8s_0.15s_ease-out_both]"
-            aria-hidden
-          >
-            <Card className="mx-auto max-w-[380px] border-0 bg-white py-6 shadow-[0_18px_48px_rgba(120,90,110,0.12)] motion-safe:animate-[float-card_5s_ease-in-out_infinite]">
-              <CardContent className="px-6 pt-0">
-                <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[18px] bg-gradient-to-br from-[#ffe4ec] via-[#e8d5ff] to-[#fff0e5]">
-                  <span className="select-none text-4xl drop-shadow-md sm:text-5xl">
-                    (^・ω・^)
-                  </span>
-                  <Sparkle className="left-[14%] top-[18%] delay-0" />
-                  <Sparkle className="right-[18%] top-[22%] delay-[0.6s]" />
-                  <Sparkle className="bottom-[20%] left-[22%] delay-[1.2s]" />
-                </div>
-                <p className="mt-4 text-center text-[0.95rem] font-medium text-[#6d5f66]">
-                  Ton prochain chat mignon t’attend ici
-                </p>
-              </CardContent>
-            </Card>
-          </div>
+        <section aria-labelledby="hero-title">
+          <HeroCatKittenGenerator />
         </section>
 
         <section
@@ -168,19 +99,5 @@ export default function Home() {
         </p>
       </footer>
     </div>
-  );
-}
-
-function Sparkle({ className, ...props }: ComponentProps<"span">) {
-  return (
-    <span
-      className={cn(
-        "pointer-events-none absolute text-sm text-white drop-shadow-[0_0_8px_rgba(255,180,200,0.8)] motion-safe:animate-[twinkle_2.5s_ease-in-out_infinite]",
-        className,
-      )}
-      {...props}
-    >
-      ✦
-    </span>
   );
 }
