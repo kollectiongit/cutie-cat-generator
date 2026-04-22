@@ -83,7 +83,7 @@ export default function Home() {
               id="hero-title"
               className="mb-4 text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-[2.75rem]"
             >
-              Des minous trop mignons, à portée de clic
+              Des minous trop cuties, à portée de clic
             </h1>
             <p className="mb-7 max-w-[36ch] text-lg text-[#6d5f66]">
               Cutie Cat Generator transforme tes idées en illustrations douces
