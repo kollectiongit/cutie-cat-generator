@@ -1,8 +1,9 @@
 "use client";
 
-import { Images, LogIn, UserPlus, UserRound } from "lucide-react";
+import { Images, LogIn, LogOut, UserPlus, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import * as React from "react";
 import { toast } from "sonner";
 
 import { buttonVariants } from "@/components/ui/button";
@@ -26,9 +27,7 @@ const triggerClass = cn(
 
 const menuWrapperClass = cn(
   "absolute left-1/2 top-full z-50 flex min-w-[200px] -translate-x-1/2 -translate-y-1 flex-col items-stretch",
-  "invisible opacity-0 transition-[opacity,visibility] duration-150",
-  "group-hover:visible group-hover:opacity-100",
-  "group-focus-within:visible group-focus-within:opacity-100",
+  "transition-[opacity,visibility] duration-150",
 );
 
 const menuPanelClass = cn(
@@ -40,6 +39,34 @@ type AuthNavCurrent = "home" | "blog" | "login" | "signup" | "generations";
 export function CutieCatAuthNav({ current }: { current: AuthNavCurrent }) {
   const router = useRouter();
   const { data: session } = authClient.useSession();
+  const [accountMenuOpen, setAccountMenuOpen] = React.useState(false);
+  const accountMenuRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (!accountMenuOpen) return;
+
+    function closeIfOutside(e: MouseEvent | TouchEvent) {
+      const el = accountMenuRef.current;
+      if (!el) return;
+      const target = e.target as Node | null;
+      if (target && !el.contains(target)) {
+        setAccountMenuOpen(false);
+      }
+    }
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setAccountMenuOpen(false);
+    }
+
+    document.addEventListener("mousedown", closeIfOutside);
+    document.addEventListener("touchstart", closeIfOutside, { passive: true });
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", closeIfOutside);
+      document.removeEventListener("touchstart", closeIfOutside);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [accountMenuOpen]);
 
   async function onSignOut() {
     await authClient.signOut({
@@ -62,16 +89,25 @@ export function CutieCatAuthNav({ current }: { current: AuthNavCurrent }) {
       "Compte";
 
     return (
-      <div className="group relative inline-flex">
+      <div ref={accountMenuRef} className="relative inline-flex">
         <button
           type="button"
           className={triggerClass}
           aria-haspopup="menu"
+          aria-expanded={accountMenuOpen}
+          onClick={() => setAccountMenuOpen((open) => !open)}
         >
           <UserRound className="size-3.5 shrink-0" strokeWidth={2.25} aria-hidden />
           <span className="truncate">{displayName}</span>
         </button>
-        <div className={menuWrapperClass}>
+        <div
+          className={cn(
+            menuWrapperClass,
+            accountMenuOpen
+              ? "visible opacity-100"
+              : "invisible opacity-0 pointer-events-none",
+          )}
+        >
           <div className={menuPanelClass} role="menu" aria-orientation="vertical">
             <Link
               href="/mes-generations"
@@ -81,6 +117,7 @@ export function CutieCatAuthNav({ current }: { current: AuthNavCurrent }) {
                 "hover:bg-[#ffeef5] focus:bg-[#ffeef5] focus:outline-none",
                 current === "generations" && "bg-[#ffeef5]/80 font-semibold",
               )}
+              onClick={() => setAccountMenuOpen(false)}
             >
               <Images className="size-3.5 shrink-0" strokeWidth={2.25} aria-hidden />
               Mes générations
@@ -89,11 +126,15 @@ export function CutieCatAuthNav({ current }: { current: AuthNavCurrent }) {
               type="button"
               role="menuitem"
               className={cn(
-                "flex w-full cursor-pointer items-center justify-center rounded-lg px-3 py-2 text-sm font-medium text-[#4a3f45] transition-colors",
+                "flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-[#4a3f45] transition-colors",
                 "hover:bg-[#ffeef5] focus:bg-[#ffeef5] focus:outline-none",
               )}
-              onClick={() => void onSignOut()}
+              onClick={() => {
+                setAccountMenuOpen(false);
+                void onSignOut();
+              }}
             >
+              <LogOut className="size-3.5 shrink-0" strokeWidth={2.25} aria-hidden />
               Se déconnecter
             </button>
           </div>
