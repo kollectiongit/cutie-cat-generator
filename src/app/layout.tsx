@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Fredoka } from "next/font/google";
+
+import { Providers } from "@/components/providers";
 import "./globals.css";
 
 const fredoka = Fredoka({
@@ -20,8 +22,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${fredoka.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+    <html
+      lang="fr"
+      className={`${fredoka.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
+      <body className="flex min-h-full flex-col font-sans">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

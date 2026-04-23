@@ -77,7 +77,7 @@ export function CutieCatShortcutDialog() {
           playMiaou();
         }}
         className={cn(
-          "absolute top-3 right-4 z-10 flex h-auto max-w-[min(100%,11rem)] flex-col items-center gap-1 border-[#ffc8d8]/70 bg-white/75 px-2 py-1.5 text-[#6d5f66] shadow-sm backdrop-blur-sm md:hidden",
+          "fixed top-[10px] right-[10px] z-50 hidden h-auto max-w-[min(100%,11rem)] flex-col items-center gap-1 border-[#ffc8d8]/70 bg-white/75 px-2 py-1.5 text-[#6d5f66] shadow-sm backdrop-blur-sm sm:flex",
         )}
         aria-haspopup="dialog"
         aria-expanded={open}

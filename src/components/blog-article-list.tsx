@@ -3,7 +3,7 @@
 import { Heart, Sparkles } from "lucide-react";
 import * as React from "react";
 
-import { blogPosts, type BlogPost } from "@/lib/blog-data";
+import type { BlogPost } from "@/lib/blog-data";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -24,13 +24,17 @@ import {
 import { Toggle } from "@/components/ui/toggle";
 import { cn } from "@/lib/utils";
 
-export function BlogArticleList() {
+type BlogArticleListProps = {
+  posts: BlogPost[];
+};
+
+export function BlogArticleList({ posts: allPosts }: BlogArticleListProps) {
   const [extraCuteOnly, setExtraCuteOnly] = React.useState(false);
   const [preview, setPreview] = React.useState<BlogPost | null>(null);
 
   const posts = extraCuteOnly
-    ? blogPosts.filter((p) => p.extraCute)
-    : blogPosts;
+    ? allPosts.filter((p) => p.extraCute)
+    : allPosts;
 
   return (
     <>
@@ -95,7 +99,7 @@ export function BlogArticleList() {
                   </div>
                   <time
                     className="shrink-0 rounded-full border border-white/80 bg-white/50 px-2.5 py-0.5 text-xs font-medium text-[#6d5f66] shadow-sm"
-                    dateTime={post.date}
+                    dateTime={post.dateIso}
                   >
                     {post.date}
                   </time>

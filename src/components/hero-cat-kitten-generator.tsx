@@ -3,11 +3,14 @@
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import type { ComponentProps } from "react";
 
+import { LoginForm } from "@/components/auth/login-form";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
-import type { ComponentProps } from "react";
 
 const btnClass = cn(
   buttonVariants({ size: "lg" }),
@@ -15,11 +18,22 @@ const btnClass = cn(
 );
 
 export function HeroCatKittenGenerator() {
+  const { data: session, isPending: sessionPending } = authClient.useSession();
+  const [loginOpen, setLoginOpen] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "done">(
     "idle",
   );
   const [dataUrl, setDataUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  function handleGenerateClick() {
+    if (sessionPending) return;
+    if (!session?.user) {
+      setLoginOpen(true);
+      return;
+    }
+    void onGenerate();
+  }
 
   async function onGenerate() {
     setStatus("loading");
@@ -32,6 +46,12 @@ export function HeroCatKittenGenerator() {
         imageBase64?: string;
         mediaType?: string;
       };
+      if (res.status === 401) {
+        setLoginOpen(true);
+        setError(body.error ?? "Connecte-toi pour générer un chaton.");
+        setStatus("idle");
+        return;
+      }
       if (!res.ok) {
         setError(body.error ?? "Impossible de générer l’image.");
         setStatus("error");
@@ -51,6 +71,7 @@ export function HeroCatKittenGenerator() {
   }
 
   return (
+    <>
     <div className="grid gap-10 pb-12 md:grid-cols-2 md:gap-12 md:pb-16 md:pt-8">
       <div className="motion-safe:animate-[fade-up_0.8s_ease-out_both]">
         <h1
@@ -67,8 +88,8 @@ export function HeroCatKittenGenerator() {
         <div className="flex flex-wrap items-center gap-4 gap-y-3">
           <button
             type="button"
-            onClick={onGenerate}
-            disabled={status === "loading"}
+            onClick={handleGenerateClick}
+            disabled={status === "loading" || sessionPending}
             className={btnClass}
           >
             {status === "loading" ? (
@@ -137,6 +158,19 @@ export function HeroCatKittenGenerator() {
         </Card>
       </div>
     </div>
+
+    <Dialog open={loginOpen} onOpenChange={setLoginOpen}>
+      <DialogContent
+        className="max-w-[calc(100%-2rem)] border-0 bg-transparent p-0 shadow-none ring-0 sm:max-w-md"
+        showCloseButton
+      >
+        <LoginForm
+          onAuthenticated={() => setLoginOpen(false)}
+          className="w-full border border-white/80 bg-white/95 shadow-[0_12px_32px_rgba(100,70,90,0.12)] backdrop-blur-md"
+        />
+      </DialogContent>
+    </Dialog>
+    </>
   );
 }
 

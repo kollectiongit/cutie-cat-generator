@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { BlogArticleList } from "@/components/blog-article-list";
+import { getBlogPosts } from "@/lib/blog-data";
 import { CutieCatSiteHeader } from "@/components/cutie-cat-site-header";
 import {
   Card,
@@ -20,7 +21,9 @@ export const metadata: Metadata = {
     "Articles, astuces et douceur féline : le blog de Cutie Cat parle de chats adorables, de ronrons et de câlins virtuels.",
 };
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const posts = await getBlogPosts();
+
   return (
     <div className="relative flex min-h-full flex-1 flex-col overflow-x-hidden bg-[linear-gradient(165deg,#fff8f3_0%,#ffeef5_35%,#e8deff_100%)] text-[#4a3f45]">
       <div
@@ -119,7 +122,7 @@ export default function BlogPage() {
           >
             La liste de lecture féline
           </h2>
-          <BlogArticleList />
+          <BlogArticleList posts={posts} />
         </section>
       </main>
 

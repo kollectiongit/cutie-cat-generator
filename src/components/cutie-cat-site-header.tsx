@@ -1,6 +1,7 @@
 import { BookOpen, Home } from "lucide-react";
 import Link from "next/link";
 
+import { CutieCatAuthNav } from "@/components/cutie-cat-auth-nav";
 import { CutieCatShortcutDialog } from "@/components/cutie-cat-shortcut-dialog";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -15,10 +16,11 @@ const linkClass = cn(
   "h-8 rounded-full text-[#6d5f66] hover:bg-white/50",
 );
 
-type CurrentPage = "home" | "blog";
+type CurrentPage = "home" | "blog" | "login" | "signup" | "generations";
 
 export function CutieCatSiteHeader({
   current,
+  tagline: _tagline,
 }: {
   tagline: string;
   current: CurrentPage;
@@ -69,6 +71,8 @@ export function CutieCatSiteHeader({
             Blog
           </Link>
         )}
+
+        <CutieCatAuthNav current={current} />
       </nav>
 
       <CutieCatShortcutDialog />
