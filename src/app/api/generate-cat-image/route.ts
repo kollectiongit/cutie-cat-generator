@@ -2,7 +2,7 @@ import { createGateway } from "@ai-sdk/gateway";
 import { generateImage, NoImageGeneratedError } from "ai";
 import { NextResponse } from "next/server";
 
-import { CUTE_KITTEN_IMAGE_PROMPT } from "@/lib/cute-cat-image-prompt";
+import { buildCuteKittenImagePrompt } from "@/lib/cute-cat-image-prompt";
 
 const gateway = createGateway({
   apiKey: process.env.AI_GATEWAY_API_KEY,
@@ -21,7 +21,7 @@ export async function POST() {
   try {
     const { image, warnings } = await generateImage({
       model: gateway.image("openai/gpt-image-1"),
-      prompt: CUTE_KITTEN_IMAGE_PROMPT,
+      prompt: buildCuteKittenImagePrompt(),
       size: "1024x1024",
     });
 
